@@ -2,10 +2,11 @@ import { requireAuth } from "@/lib/auth/session";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { LayoutDashboard, Settings, LogOut, Menu } from "lucide-react";
+import { LayoutDashboard, Settings, LogOut, Menu, MessageSquare } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard/chat", label: "Chat", icon: MessageSquare },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 

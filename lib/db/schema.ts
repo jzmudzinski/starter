@@ -73,6 +73,33 @@ export const subscription = pgTable("subscription", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+// ── Chat (Agent as a Service) ──────────────────────────────────
+
+export const chatConversation = pgTable("chat_conversation", {
+  id: text("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  title: text("title"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const chatMessage = pgTable("chat_message", {
+  id: text("id").primaryKey(),
+  conversationId: text("conversation_id")
+    .notNull()
+    .references(() => chatConversation.id, { onDelete: "cascade" }),
+  role: text("role").notNull(), // 'user' | 'assistant' | 'tool'
+  content: text("content"),
+  toolCalls: jsonb("tool_calls"),
+  toolCallId: text("tool_call_id"),
+  toolName: text("tool_name"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// ── Rate Limiting ──────────────────────────────────────────────
+
 export const rateLimit = pgTable("rate_limit", {
   id: text("id").primaryKey(),
   userId: text("user_id")
