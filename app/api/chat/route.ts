@@ -13,7 +13,7 @@
 import { streamText } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { anthropic } from "@ai-sdk/anthropic";
-// import { chatTools } from "@/lib/ai/tools"; // TODO: Add tools when needed
+// // import { chatTools } from "@/lib/ai/tools"; // Enable when adding tool calling // TODO: Add tools when needed
 import { requireAuth } from "@/lib/auth/session";
 import { db } from "@/lib/db/client";
 import { chatConversation, chatMessage } from "@/lib/db/schema";
