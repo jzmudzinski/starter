@@ -1,13 +1,15 @@
 /**
  * AI Chat Tools — Define tools the chat agent can use.
  *
- * Uses Vercel AI SDK tool definitions.
- * Add your app-specific tools here.
+ * Add your app-specific tools here. The agent will decide when to call them.
+ *
+ * Uses Vercel AI SDK tool format.
  */
 
 import { z } from "zod";
 
-export const chatTools: Record<string, { description: string; parameters: z.ZodType; execute: (...args: unknown[]) => Promise<unknown> }> = {
+// Define tools as plain objects for AI SDK v6 compatibility
+export const chatTools = {
   get_current_time: {
     description: "Get the current date and time",
     parameters: z.object({}),
@@ -18,12 +20,14 @@ export const chatTools: Record<string, { description: string; parameters: z.ZodT
   },
 
   calculate: {
-    description: "Perform a mathematical calculation",
+    description:
+      "Perform a mathematical calculation. Supports basic operations.",
     parameters: z.object({
-      expression: z.string().describe("Math expression, e.g. '2 + 2 * 3'"),
+      expression: z
+        .string()
+        .describe("Math expression to evaluate, e.g. '2 + 2 * 3'"),
     }),
-    execute: async (args: unknown) => {
-      const { expression } = args as { expression: string };
+    execute: async ({ expression }: { expression: string }) => {
       try {
         const sanitized = expression.replace(/[^0-9+\-*/().%\s]/g, "");
         const result = new Function(`return ${sanitized}`)();
